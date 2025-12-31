@@ -3,7 +3,7 @@
     "name": "CLAUDIA - Registro de Horas",
     "short_name": "CLAUDIA",
     "description": "Aplicación personalizada para el registro de horas de trabajo en Paradores",
-    "start_url": "/claudia-app/",
+    "start_url": "/claudia-app/index.html",
     "scope": "/claudia-app/",
     "display": "standalone",
     "background_color": "#8b5cf6",

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Aplicación personalizada para Claudia - Registro de horas de trabajo en Paradores">
+    <meta name="theme-color" content="#51056dc3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CLAUDIA">
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <title>💖 CLAUDIA - Registro de Horas</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Pantalla de Bienvenida */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #ffffff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 1s ease;
+        }
+
+        .welcome-screen.fade-out {
+            animation: fadeOut 0.8s ease forwards;
+        }
+
+        .welcome-content {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .heart-container {
+            margin-bottom: 3rem;
+        }
+
+        .heart {
+            font-size: 8rem;
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.8));
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            10%,
+            30% {
+                transform: scale(1.1);
+            }
+
+            20%,
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .welcome-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 0 4px 12px rgba(236, 72, 153, 0.8),
+                0 2px 6px rgba(139, 92, 246, 0.6),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .text-line {
+            display: inline-block;
+            opacity: 0;
+            animation: slideInUp 1s ease forwards 0.5s;
+        }
+
+        .welcome-subtitle {
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #fef3c7;
+            text-shadow: 0 3px 8px rgba(251, 191, 36, 0.8),
+                0 2px 4px rgba(0, 0, 0, 0.5),
+                0 6px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .text-line-2 {
+            display: inline-block;
+            opacity: 0;
+            animation: slideInUp 1s ease forwards 1.2s;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-continue {
+            padding: 1.5rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6),
+                0 4px 12px rgba(109, 40, 217, 0.4),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInScale 0.8s ease forwards 2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-continue::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-continue:hover::before {
+            left: 100%;
+        }
+
+        .btn-continue:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.7),
+                0 6px 16px rgba(109, 40, 217, 0.5),
+                0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-continue:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .heart {
+                font-size: 5rem;
+            }
+
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .btn-continue {
+                font-size: 1rem;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="heart-container">
+                <div class="heart">💖</div>
+            </div>
+
+            <h1 class="welcome-title">
+                <span class="text-line">Hola Amor...</span>
+            </h1>
+
+            <p class="welcome-subtitle">
+                <span class="text-line-2">Hora de anotar tu día de trabajo</span>
+            </p>
+
+            <button id="btn-continue" class="btn-continue">
+                ✨ Continuar ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">💖 CLAUDIA</h1>
+            <p class="subtitle">Registro de horas. Paradores</p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" data-view="registro">
+            <span class="tab-icon">➕</span>
+            Nuevo
+        </button>
+        <button class="tab-btn" data-view="lista">
+            <span class="tab-icon">📋</span>
+            Registros
+        </button>
+        <button class="tab-btn" data-view="resumen">
+            <span class="tab-icon">📊</span>
+            Resumen
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Vista 1: Nuevo Registro -->
+            <section id="view-registro" class="view active">
+                <div class="card">
+                    <h2 class="card-title">Nuevo Registro</h2>
+
+                    <form id="form-registro" class="form">
+                        <!-- Fecha -->
+                        <div class="form-group">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input type="date" id="fecha" name="fecha" class="form-input" required>
+                        </div>
+
+                        <!-- Zona de Trabajo -->
+                        <div class="form-group">
+                            <label for="zona" class="form-label">Zona de Trabajo</label>
+                            <select id="zona" name="zona" class="form-input" required>
+                                <option value="">Selecciona una zona...</option>
+                                <option value="Coordinadora">Coordinadora</option>
+                                <option value="Habitaciones">Habitaciones</option>
+                                <option value="Guardia">Guardia</option>
+                                <option value="Zona 0">Zona 0</option>
+                                <option value="Zona SS">Zona SS</option>
+                                <option value="Lavanderia">Lavandería</option>
+                                <option value="Corps">Corps</option>
+                            </select>
+                        </div>
+
+                        <!-- Hora de Entrada -->
+                        <div class="form-group">
+                            <label for="horaEntrada" class="form-label">Hora de Entrada</label>
+                            <input type="time" id="horaEntrada" name="horaEntrada" class="form-input" required>
+                        </div>
+
+                        <!-- Hora de Salida -->
+                        <div class="form-group">
+                            <label for="horaSalida" class="form-label">Hora de Salida</label>
+                            <input type="time" id="horaSalida" name="horaSalida" class="form-input" required>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                💾 Guardar Registro
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                🔄 Limpiar
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Mensaje de confirmación -->
+                    <div id="mensaje" class="mensaje hidden"></div>
+                </div>
+            </section>
+
+            <!-- Vista 2: Lista de Registros -->
+            <section id="view-lista" class="view">
+                <div class="card">
+                    <h2 class="card-title">Todos los Registros</h2>
+
+                    <!-- Filtros -->
+                    <div class="filtros-container">
+                        <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                            <label for="filtro-periodo" class="form-label">Período</label>
+                            <select id="filtro-periodo" class="form-input">
+                                <option value="todos">Todos los registros</option>
+                                <option value="semana">Esta semana</option>
+                                <option value="mes">Este mes</option>
+                                <option value="personalizado">Personalizado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Filtros de fecha personalizada (ocultos por defecto) -->
+                    <div id="filtros-personalizados" class="filtros-personalizados hidden">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="fecha-desde" class="form-label">Desde</label>
+                            <input type="date" id="fecha-desde" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="fecha-hasta" class="form-label">Hasta</label>
+                            <input type="date" id="fecha-hasta" class="form-input">
+                        </div>
+                        <button id="btn-aplicar-filtro" class="btn btn-primary">
+                            🔍 Filtrar
+                        </button>
+                        <button id="btn-limpiar-filtro" class="btn btn-secondary">
+                            🔄 Limpiar
+                        </button>
+                    </div>
+
+                    <div id="lista-registros" class="registros-container">
+                        <!-- Los registros se cargarán aquí dinámicamente -->
+                        <p class="empty-state">No hay registros todavía. ¡Crea tu primer registro!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista 3: Resumen Semanal -->
+            <section id="view-resumen" class="view">
+                <div class="card">
+                    <h2 class="card-title">Resumen</h2>
+
+                    <!-- Sub-pestañas -->
+                    <div class="sub-tabs">
+                        <button class="sub-tab-btn active" data-periodo="semanal">
+                            📅 Semanal
+                        </button>
+                        <button class="sub-tab-btn" data-periodo="mensual">
+                            📆 Mensual
+                        </button>
+                    </div>
+
+                    <div id="resumen-semanal" class="resumen-container">
+                        <!-- El resumen se cargará aquí dinámicamente -->
+                        <p class="empty-state">No hay datos para mostrar.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Creado por Miguel P. powered by Antigravity</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+
+</html>

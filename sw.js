@@ -1,14 +1,15 @@
 // Service Worker para PWA - Permite funcionamiento offline
 // Este código se ejecuta en segundo plano
 
-const CACHE_NAME = 'claudia-app-v1';
+const CACHE_NAME = 'claudia-app-v2';
 const urlsToCache = [
-    '/index.html',
-    '/styles.css',
-    '/app.js',
-    '/manifest.json',
-    '/icon-192.png',
-    '/icon-512.png'
+    './',
+    './index.html',
+    './styles.css',
+    './app.js',
+    './manifest.json',
+    './icon-192-v2.png',
+    './icon-512-v2.png'
 ];
 
 // INSTALACIÓN: Cuando se instala el Service Worker
